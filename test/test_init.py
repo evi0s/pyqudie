@@ -47,13 +47,13 @@ class TestInit(unittest.TestCase):
         else:
             raise AssertionError
 
-    def test_init5(self):
-        try:
-            Mongo.Mongo()
-        except ImportError as err:
-            self.assertEquals(err.message, "Authentication Required or Connection Error!")
-        else:
-            raise AssertionError
+    # def test_init5(self):
+    #     try:
+    #         Mongo.Mongo()
+    #     except ImportError as err:
+    #         self.assertEquals(err.message, "Authentication Required or Connection Error!")
+    #     else:
+    #         raise AssertionError
 
     def test_init6(self):
         try:
