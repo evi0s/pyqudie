@@ -14,7 +14,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - cd test && pytest --doctest-modules -v --cov coveralls --cov-report term-missing
+  - cd test && pytest --doctest-modules -v --cov Mongo --cov-report term-missing
 
 after_success:
   - coveralls
