@@ -1,6 +1,6 @@
 """setup.py"""
 from setuptools import setup, find_packages
-from Mongo import __version__, __author__, __name__, __doc__
+from pyqudie import __version__, __author__, __name__, __doc__
 
 
 setup(author=__author__,
