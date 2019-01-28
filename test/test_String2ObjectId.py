@@ -9,7 +9,7 @@ from bson.objectid import ObjectId
 
 sys.path.append("..")
 
-from Mongo import Mongo
+from pyqudie import Mongo
 
 
 class TestString2ObjectId(unittest.TestCase):

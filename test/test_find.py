@@ -10,7 +10,7 @@ import testconfig as config
 
 sys.path.append("..")
 
-from Mongo import Mongo
+from pyqudie import Mongo
 
 
 class TestFind(unittest.TestCase):

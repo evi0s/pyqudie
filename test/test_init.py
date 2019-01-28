@@ -9,7 +9,7 @@ import testconfig as config
 
 sys.path.append("..")
 
-from Mongo import Mongo
+from pyqudie import Mongo
 
 
 class TestInit(unittest.TestCase):
