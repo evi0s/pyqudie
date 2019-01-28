@@ -7,14 +7,14 @@ services:
   - mongodb
 
 before_script:
-  - sleep 15
+  - sleep 5
   - mongo admin --eval 'db.createUser({user:"evi0s",pwd:"test",roles:["root"]});'
 
 install:
   - pip install -r requirements.txt
 
 script:
-  - cd test && pytest --doctest-modules -v --cov Mongo --cov-report term-missing
+  - cd test && pytest --doctest-modules -v --cov pyqudie --cov-report term-missing
 
 after_success:
   - coveralls --base_dir /home/travis/build/evi0s/pyqudie/
