@@ -17,4 +17,4 @@ script:
   - cd test && pytest --doctest-modules -v --cov Mongo --cov-report term-missing
 
 after_success:
-  - coveralls
+  - coveralls --base_dir /home/travis/build/evi0s/pyqudie/
