@@ -6,6 +6,7 @@ function: ObjectId2UnixTimeStamp
 import unittest
 import sys
 from bson.objectid import ObjectId
+import time
 
 sys.path.append("..")
 
@@ -18,14 +19,15 @@ class TestObjectId2UnixTimeStamp(unittest.TestCase):
 
         objstr = "5c4dc95cbb8b0b4811da29b4"
         test = Mongo.Mongo.ObjectId2UnixTimeStamp(objstr)
-        self.assertEquals(test, 1548572892.0)
+        objectid = ObjectId(objstr)
+        self.assertEquals(test, time.mktime(objectid.generation_time.timetuple()))
 
     def test_ObjectId2UnixTimeStamp2(self):
 
         objstr = "5c4dc95cbb8b0b4811da29b4"
         objectid = ObjectId(objstr)
         test = Mongo.Mongo.ObjectId2UnixTimeStamp(objectid)
-        self.assertEquals(test, 1548572892.0)
+        self.assertEquals(test, time.mktime(objectid.generation_time.timetuple()))
 
     def test_ObjectId2UnixTimeStamp3(self):
 
