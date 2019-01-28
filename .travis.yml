@@ -12,7 +12,6 @@ before_script:
 
 install:
   - pip install -r requirements.txt
-  - pip install python-coveralls pytest pytest-cov coverage
 
 script:
   - cd test && pytest --doctest-modules -v --cov coveralls --cov-report term-missing
