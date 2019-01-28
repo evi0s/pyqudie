@@ -4,3 +4,6 @@
 *.pyc
 .cache
 .bash_history
+test/.pytest_cache
+.pytest_cache
+.coverage
