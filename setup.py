@@ -1,6 +1,6 @@
 """setup.py"""
 from setuptools import setup, find_packages
-from __init__ import __version__, __author__, __name__, __doc__
+from Mongo import __version__, __author__, __name__, __doc__
 
 
 setup(author=__author__,
@@ -8,6 +8,7 @@ setup(author=__author__,
       maintainer=__author__,
       name=__name__,
       packages=find_packages(exclude=('test', 'test.*')),
+      package_dir = {'': '.'},
       long_description=open('README.md').read(),
       version=__version__,
       keywords='mongodb',

@@ -7,3 +7,7 @@
 test/.pytest_cache
 .pytest_cache
 .coverage
+build
+dist
+pyqudie.egg-info
+EGG-INFO

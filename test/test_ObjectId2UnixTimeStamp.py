@@ -10,7 +10,7 @@ import time
 
 sys.path.append("..")
 
-import Mongo
+from Mongo import Mongo
 
 
 class TestObjectId2UnixTimeStamp(unittest.TestCase):

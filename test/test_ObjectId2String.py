@@ -9,7 +9,7 @@ from bson.objectid import ObjectId
 
 sys.path.append("..")
 
-import Mongo
+from Mongo import Mongo
 
 
 class TestObjectId2String(unittest.TestCase):

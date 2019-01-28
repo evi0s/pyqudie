@@ -3,7 +3,7 @@
 import __main__
 
 if __main__.__doc__ != 'setup.py':
-    import Mongo
+    from . import Mongo
 
 __version__ = "0.0.1"
 __author__ = "evi0s<wc810267705@163.com>"

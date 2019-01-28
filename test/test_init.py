@@ -9,7 +9,7 @@ import testconfig as config
 
 sys.path.append("..")
 
-import Mongo
+from Mongo import Mongo
 
 
 class TestInit(unittest.TestCase):
