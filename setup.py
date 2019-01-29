@@ -14,7 +14,7 @@ setup(author=__author__,
       keywords='mongodb',
       description=__doc__,
       url="https://github.com/evi0s/pyqudie",
-      install_requires=['pymongo'],
+      install_requires=['pymongo>=3.7.2'],
       classifiers=[
           'Environment :: Console',
           'Programming Language :: Python :: 2.7',
