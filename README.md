@@ -5,4 +5,4 @@
 
 Kqudie Python Edition
 
-python练手
+python练手 文档咕咕咕

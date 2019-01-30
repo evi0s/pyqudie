@@ -1,7 +1,7 @@
 """
 MongoDB Module
 
-:version 0.0.1
+:version 0.0.5
 """
 
 import pymongo
