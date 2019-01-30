@@ -11,6 +11,7 @@ import testconfig as config
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestRemove(unittest.TestCase):
@@ -73,8 +74,8 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection, removeQuery)
-        except RuntimeError as err:
-            self.assertEquals(err.message, "No such Collection!")
+        except InvalidCollectionException as err:
+            self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
 
@@ -87,7 +88,7 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection, removeQuery)
-        except TypeError as err:
+        except InvalidCollectionException as err:
             self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
@@ -101,7 +102,7 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection, removeQuery)
-        except TypeError as err:
+        except InvalidRemoveQueryException as err:
             self.assertEquals(err.message, "Invalid Remove Query!")
         else:
             raise AssertionError
@@ -115,7 +116,7 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection = collection, removeQuery = removeQuery, removeAllConfirm = 123)
-        except TypeError as err:
+        except InvalidRemoveOptionException as err:
             self.assertEquals(err.message, "Invalid Remove Option!")
         else:
             raise AssertionError
@@ -129,7 +130,7 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection = collection, removeQuery = removeQuery, removeMany = "asdf")
-        except TypeError as err:
+        except InvalidRemoveOptionException as err:
             self.assertEquals(err.message, "Invalid Remove Option!")
         else:
             raise AssertionError
@@ -143,7 +144,7 @@ class TestRemove(unittest.TestCase):
 
         try:
             test.remove(collection = collection, removeQuery = removeQuery)
-        except RuntimeError as err:
+        except RemoveAllNotConfirmedException as err:
             self.assertEquals(err.message, "Remove All not Confirmed!")
         else:
             raise AssertionError

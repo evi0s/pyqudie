@@ -11,7 +11,7 @@ before_script:
   - mongo admin --eval 'db.createUser({user:"evi0s",pwd:"test",roles:["root"]});'
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r test-requirements.txt
 
 script:
   - cd test && pytest --doctest-modules -v --cov pyqudie --cov-report term-missing

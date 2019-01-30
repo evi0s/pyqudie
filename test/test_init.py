@@ -10,6 +10,7 @@ import testconfig as config
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestInit(unittest.TestCase):
@@ -34,7 +35,7 @@ class TestInit(unittest.TestCase):
     def test_init3(self):
         try:
             Mongo.Mongo("1.1.1.1", 27017, True, config.database_username, config.database_password, "admin")
-        except ImportError as err:
+        except ConnectFailedException as err:
             self.assertEquals(err.message, "Authentication Required or Connection Error!")
         else:
             raise AssertionError
@@ -42,7 +43,7 @@ class TestInit(unittest.TestCase):
     def test_init4(self):
         try:
             Mongo.Mongo(123, 456, 789)
-        except ImportError as err:
+        except InvalidArgumentsException as err:
             self.assertEquals(err.message, "Invalid Arguments!")
         else:
             raise AssertionError
@@ -59,7 +60,7 @@ class TestInit(unittest.TestCase):
         try:
             Mongo.Mongo(config.database_host, config.database_port, True, config.database_username,
                            config.database_password, "asdasdasd")
-        except ImportError as err:
+        except NoDatabaseException as err:
             self.assertEquals(err.message, "No such Database!")
         else:
             raise AssertionError

@@ -11,6 +11,7 @@ import testconfig as config
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestFind(unittest.TestCase):
@@ -78,8 +79,8 @@ class TestFind(unittest.TestCase):
 
         try:
             test.find("tes", {"id": 124})
-        except RuntimeError as err:
-            self.assertEquals(err.message, "No such Collection!")
+        except InvalidCollectionException as err:
+            self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
 
@@ -90,7 +91,7 @@ class TestFind(unittest.TestCase):
 
         try:
             test.find(123, {"id": 124})
-        except TypeError as err:
+        except InvalidCollectionException as err:
             self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
@@ -102,7 +103,7 @@ class TestFind(unittest.TestCase):
 
         try:
             test.find("test", "asd")
-        except TypeError as err:
+        except InvalidQueryObjectException as err:
             self.assertEquals(err.message, "Invalid Query Object!")
         else:
             raise AssertionError

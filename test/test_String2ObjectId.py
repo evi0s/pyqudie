@@ -10,6 +10,7 @@ from bson.objectid import ObjectId
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestString2ObjectId(unittest.TestCase):
@@ -26,7 +27,7 @@ class TestString2ObjectId(unittest.TestCase):
         objstr = "5c4dc95cbb8b0b4811da29b"
         try:
             Mongo.Mongo.String2ObjectId(objstr)
-        except TypeError as err:
+        except InvalidObjectIdException as err:
             self.assertEquals(err.message, "Invalid ObjectId!")
 
     def test_String2ObjectId3(self):
@@ -34,5 +35,5 @@ class TestString2ObjectId(unittest.TestCase):
         objstr = 123
         try:
             Mongo.Mongo.String2ObjectId(objstr)
-        except TypeError as err:
+        except InvalidObjectIdException as err:
             self.assertEquals(err.message, "Invalid ObjectId!")

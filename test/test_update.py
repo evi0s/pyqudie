@@ -11,6 +11,7 @@ import testconfig as config
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestUpdate(unittest.TestCase):
@@ -79,8 +80,8 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict)
-        except RuntimeError as err:
-            self.assertEquals(err.message, "No such Collection!")
+        except InvalidCollectionException as err:
+            self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
 
@@ -94,7 +95,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict)
-        except TypeError as err:
+        except InvalidCollectionException as err:
             self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
@@ -109,7 +110,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict)
-        except TypeError as err:
+        except InvalidUpdateQueryException as err:
             self.assertEquals(err.message, "Invalid Update Query!")
         else:
             raise AssertionError
@@ -124,7 +125,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict)
-        except TypeError as err:
+        except InvalidUpdateDictException as err:
             self.assertEquals(err.message, "Invalid Update Dict!")
         else:
             raise AssertionError
@@ -139,7 +140,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict, updateMany = 123)
-        except TypeError as err:
+        except InvalidUpdateOptionException as err:
             self.assertEquals(err.message, "Invalid Update Option!")
         else:
             raise AssertionError
@@ -154,7 +155,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict)
-        except RuntimeError as err:
+        except OperationFailedException as err:
             self.assertEquals(err.message, "Operation Failed!")
         else:
             raise AssertionError
@@ -169,7 +170,7 @@ class TestUpdate(unittest.TestCase):
 
         try:
             test.update(collection, updateQuery, updateDict, updateMany = True)
-        except RuntimeError as err:
+        except OperationFailedException as err:
             self.assertEquals(err.message, "Operation Failed!")
         else:
             raise AssertionError

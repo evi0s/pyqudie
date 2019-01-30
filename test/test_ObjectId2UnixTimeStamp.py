@@ -11,6 +11,7 @@ import time
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestObjectId2UnixTimeStamp(unittest.TestCase):
@@ -34,7 +35,7 @@ class TestObjectId2UnixTimeStamp(unittest.TestCase):
         objstr = "5c4dc95cbb8b0b4811da29b"
         try:
             Mongo.Mongo.ObjectId2UnixTimeStamp(objstr)
-        except TypeError as err:
+        except InvalidObjectIdException as err:
             self.assertEquals(err.message, "Invalid ObjectId!")
 
     def test_ObjectId2UnixTimeStamp4(self):
@@ -42,5 +43,5 @@ class TestObjectId2UnixTimeStamp(unittest.TestCase):
         objstr = 123
         try:
             Mongo.Mongo.ObjectId2UnixTimeStamp(objstr)
-        except TypeError as err:
+        except InvalidObjectIdException as err:
             self.assertEquals(err.message, "Invalid ObjectId!")

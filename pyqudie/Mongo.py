@@ -7,6 +7,7 @@ MongoDB Module
 import pymongo
 import time
 from bson.objectid import ObjectId
+from MongoExceptions import *
 
 
 class Mongo:
@@ -34,22 +35,22 @@ class Mongo:
         if type(host) != str or type(port) != int \
                 or type(auth) != bool or type(username) != str \
                 or type(password) != str or type(database) != str:
-            raise ImportError("Invalid Arguments!")
+            raise InvalidArgumentsException()
 
         if auth:
             self.url = "mongodb://{}:{}@{}:{}/".format(username, password, host, port)
         else:
             self.url = "mongodb://{}:{}/".format(host, port)
 
-        self.Client = pymongo.MongoClient(self.url, serverSelectionTimeoutMS=1000)
+        self.Client = pymongo.MongoClient(self.url, serverSelectionTimeoutMS=100)
 
         try:
             databases = self.Client.list_database_names()
         except:
-            raise ImportError("Authentication Required or Connection Error!")
+            raise ConnectFailedException()
 
         if database not in databases:
-            raise ImportError("No such Database!")
+            raise NoDatabaseException()
 
         self.Database = self.Client[database]
 
@@ -65,15 +66,15 @@ class Mongo:
     def find(self, collection="test", finddict={}):
 
         if type(collection) != str:
-            raise TypeError("Invalid Collection!")
+            raise InvalidCollectionException()
 
         if type(finddict) != dict:
-            raise TypeError("Invalid Query Object!")
+            raise InvalidQueryObjectException()
 
         collections = self.Database.list_collection_names()
 
         if collection not in collections:
-            raise RuntimeError("No such Collection!")
+            raise InvalidCollectionException()
 
         Collection = self.Database[collection]
         Cursor = Collection.find(finddict)
@@ -96,20 +97,20 @@ class Mongo:
     def insert(self, collection="test", insertObject=None):
 
         if type(collection) != str:
-            raise TypeError("Invalid Collection!")
+            raise InvalidCollectionException()
 
         if type(insertObject) != dict and type(insertObject) != list:
-            raise TypeError("Invalid Insert Object!")
+            raise InvalidInsertObjectException()
 
         if type(insertObject) == list:
             for i in range(0, len(insertObject)):
                 if type(insertObject[i]) != dict:
-                    raise TypeError("Invalid Insert Object!")
+                    raise InvalidInsertObjectException()
 
         collections = self.Database.list_collection_names()
 
         if collection not in collections:
-            raise RuntimeError("No such Collection!")
+            raise InvalidCollectionException()
 
         Collection = self.Database[collection]
         result = []
@@ -138,40 +139,40 @@ class Mongo:
     def remove(self, collection="test", removeQuery=None, removeAllConfirm=False, removeMany=False):
 
         if type(collection) != str:
-            raise TypeError("Invalid Collection!")
+            raise InvalidCollectionException()
 
         if type(removeQuery) != dict:
-            raise TypeError("Invalid Remove Query!")
+            raise InvalidRemoveQueryException()
 
         if type(removeMany) != bool or type(removeAllConfirm) != bool:
-            raise TypeError("Invalid Remove Option!")
+            raise InvalidRemoveOptionException()
 
         collections = self.Database.list_collection_names()
 
         if collection not in collections:
-            raise RuntimeError("No such Collection!")
+            raise InvalidCollectionException()
 
         Collection = self.Database[collection]
         result = 0
 
         if not removeQuery:
             if not removeAllConfirm:
-                raise RuntimeError("Remove All not Confirmed!")
+                raise RemoveAllNotConfirmedException()
             else:
                 try:
                     result = Collection.delete_many({})
                 except:
-                    raise RuntimeError("Operation Failed!")
+                    raise OperationFailedException()
         elif removeMany:
             try:
                 result = Collection.delete_many(removeQuery)
             except:
-                raise RuntimeError("Operation Failed!")
+                raise OperationFailedException()
         else:
             try:
                 result = Collection.delete_one(removeQuery)
             except:
-                raise RuntimeError("Operation Failed!")
+                raise OperationFailedException()
 
         return result.deleted_count
 
@@ -189,21 +190,21 @@ class Mongo:
     def update(self, collection="test", updateQuery=None, updateDict=None, updateMany=False):
 
         if type(collection) != str:
-            raise TypeError("Invalid Collection!")
+            raise InvalidCollectionException()
 
         if type(updateQuery) != dict:
-            raise TypeError("Invalid Update Query!")
+            raise InvalidUpdateQueryException()
 
         if type(updateDict) != dict:
-            raise TypeError("Invalid Update Dict!")
+            raise InvalidUpdateDictException()
 
         if type(updateMany) != bool:
-            raise TypeError("Invalid Update Option!")
+            raise InvalidUpdateOptionException()
 
         collections = self.Database.list_collection_names()
 
         if collection not in collections:
-            raise RuntimeError("No such Collection!")
+            raise InvalidCollectionException()
 
         Collection = self.Database[collection]
         result = 0
@@ -212,12 +213,12 @@ class Mongo:
             try:
                 result = Collection.update_many(updateQuery, updateDict)
             except:
-                raise RuntimeError("Operation Failed!")
+                raise OperationFailedException()
         else:
             try:
                 result = Collection.update_one(updateQuery, updateDict)
             except:
-                raise RuntimeError("Operation Failed!")
+                raise OperationFailedException()
 
         return result.modified_count
 
@@ -239,9 +240,9 @@ class Mongo:
                 temp = ObjectId(objectid)
                 result = time.mktime(temp.generation_time.timetuple())
             except:
-                raise TypeError("Invalid ObjectId!")
+                raise InvalidObjectIdException()
         else:
-            raise TypeError("Invalid ObjectId!")
+            raise InvalidObjectIdException()
 
         return result
 
@@ -257,7 +258,7 @@ class Mongo:
     def ObjectId2String(objectid):
 
         if type(objectid) != ObjectId:
-            raise TypeError("Invalid ObjectId!")
+            raise InvalidObjectIdException()
 
         return objectid.__str__()
 
@@ -273,11 +274,11 @@ class Mongo:
     def String2ObjectId(objectid=None):
 
         if type(objectid) != str:
-            raise TypeError("Invalid ObjectId!")
+            raise InvalidObjectIdException()
 
         try:
             result = ObjectId(objectid)
         except:
-            raise TypeError("Invalid ObjectId!")
+            raise InvalidObjectIdException()
 
         return result

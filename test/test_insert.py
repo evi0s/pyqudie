@@ -11,6 +11,7 @@ import testconfig as config
 sys.path.append("..")
 
 from pyqudie import Mongo
+from pyqudie.MongoExceptions import *
 
 
 class TestInsert(unittest.TestCase):
@@ -59,9 +60,9 @@ class TestInsert(unittest.TestCase):
                            config.database_username, config.database_password)
 
         try:
-            result = test.insert("tes", {"id": 124})
-        except RuntimeError as err:
-            self.assertEquals(err.message, "No such Collection!")
+            test.insert("tes", {"id": 124})
+        except InvalidCollectionException as err:
+            self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
 
@@ -71,8 +72,8 @@ class TestInsert(unittest.TestCase):
                            config.database_username, config.database_password)
 
         try:
-            result = test.insert(123, {"id": 124})
-        except TypeError as err:
+            test.insert(123, {"id": 124})
+        except InvalidCollectionException as err:
             self.assertEquals(err.message, "Invalid Collection!")
         else:
             raise AssertionError
@@ -83,8 +84,8 @@ class TestInsert(unittest.TestCase):
                            config.database_username, config.database_password)
 
         try:
-            result = test.insert("test", "{'id': 124}")
-        except TypeError as err:
+            test.insert("test", "{'id': 124}")
+        except InvalidInsertObjectException as err:
             self.assertEquals(err.message, "Invalid Insert Object!")
         else:
             raise AssertionError
@@ -95,8 +96,8 @@ class TestInsert(unittest.TestCase):
                            config.database_username, config.database_password)
 
         try:
-            result = test.insert("test", [{'id': 124}, "sdf"])
-        except TypeError as err:
+            test.insert("test", [{'id': 124}, "sdf"])
+        except InvalidInsertObjectException as err:
             self.assertEquals(err.message, "Invalid Insert Object!")
         else:
             raise AssertionError
